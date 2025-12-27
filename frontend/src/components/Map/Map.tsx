@@ -1,9 +1,8 @@
-import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import type { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const Map: React.FC = () => {
+const Map = () => {
   const position: LatLngExpression = [51.505, -0.09]; // Londres como exemplo
 
   return (

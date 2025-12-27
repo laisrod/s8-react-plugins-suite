@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './Calendar.css';
 
-const CalendarComponent: React.FC = () => {
+const CalendarComponent = () => {
   const [date, setDate] = useState<Date | null>(new Date());
 
   const handleDateChange = (value: Date | [Date | null, Date | null] | null) => {

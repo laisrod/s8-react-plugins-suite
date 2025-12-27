@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import type { IUser, CreateUserDTO } from '../../types/index';
 import { fetchUsers, createUser, updateUser, deleteUser } from '../../services/api';
 import './Users.css';
 
-const Users: React.FC = () => {
+const Users = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +43,7 @@ const Users: React.FC = () => {
   }, []);
 
   // Função para criar usuário
-  const handleCreate = async (e: React.FormEvent): Promise<void> => {
+  const handleCreate = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
     const response = await createUser(formData);
     if (response.success) {
@@ -55,7 +56,7 @@ const Users: React.FC = () => {
   };
 
   // Função para atualizar usuário
-  const handleUpdate = async (e: React.FormEvent): Promise<void> => {
+  const handleUpdate = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
     if (!editingUser?._id) return;
     

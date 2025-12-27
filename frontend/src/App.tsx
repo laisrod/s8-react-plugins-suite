@@ -6,7 +6,7 @@ import Charts from './components/Charts/Charts';
 import Users from './components/Users/Users';
 import './App.css';
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <nav className="navbar">

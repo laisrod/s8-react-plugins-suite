@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-const Charts: React.FC = () => {
+const Charts = () => {
   const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'];
 
   const lineData = {

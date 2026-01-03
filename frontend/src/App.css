@@ -90,6 +90,21 @@ body {
   padding: 1rem;
 }
 
+.map-container .leaflet-container {
+  height: 600px;
+  width: 100%;
+  z-index: 0;
+}
+
+.map-container .leaflet-popup-content-wrapper {
+  border-radius: 8px;
+}
+
+.map-container .leaflet-popup-content {
+  margin: 10px;
+  line-height: 1.5;
+}
+
 /* Calendar Styles */
 .calendar-wrapper {
   display: flex;
@@ -133,6 +148,18 @@ body {
   margin-bottom: 1rem;
   font-size: 1.2rem;
   text-align: center;
+}
+
+.chart-item canvas {
+  max-height: 400px;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.chart-item > div {
+  position: relative;
+  height: 400px;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

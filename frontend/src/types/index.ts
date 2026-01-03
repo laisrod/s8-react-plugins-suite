@@ -24,3 +24,21 @@ export interface IUser {
     error?: string;
     message?: string;
   }
+
+  // Interface para MapLocation
+  export interface IMapLocation {
+    _id?: string;
+    name: string;
+    latitude: number;
+    longitude: number;
+    description?: string;
+    address?: string;
+    createdAt?: string;
+    updatedAt?: string;
+  }
+
+  // Tipo para criar MapLocation
+  export type CreateMapLocationDTO = Omit<IMapLocation, '_id' | 'createdAt' | 'updatedAt'>;
+
+  // Tipo para atualizar MapLocation
+  export type UpdateMapLocationDTO = Partial<Omit<IMapLocation, '_id' | 'createdAt' | 'updatedAt'>>;

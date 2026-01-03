@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { fetchMapLocations } from '../../services/mapLocationApi';
 import type { IMapLocation } from '../../types/index';
 
-// Fix para ícones do Leaflet (problema comum)
+// Fix para ícones do Leaflet
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
@@ -25,8 +25,7 @@ const Map: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Centro padrão (Brasil) se não houver locais
-  const defaultCenter: [number, number] = [-14.235, -51.925];
+  const defaultCenter: [number, number] = [-14.235, -51.925]; // Brasil
   const defaultZoom = 4;
 
   useEffect(() => {
@@ -51,25 +50,16 @@ const Map: React.FC = () => {
     loadLocations();
   }, []);
 
-  // Calcular centro do mapa baseado nos locais ou usar padrão
   const getMapCenter = (): [number, number] => {
-    if (locations.length === 0) {
-      return defaultCenter;
-    }
-    
+    if (locations.length === 0) return defaultCenter;
     const avgLat = locations.reduce((sum, loc) => sum + loc.latitude, 0) / locations.length;
     const avgLng = locations.reduce((sum, loc) => sum + loc.longitude, 0) / locations.length;
-    
     return [avgLat, avgLng];
   };
 
   const getMapZoom = (): number => {
-    if (locations.length === 0) {
-      return defaultZoom;
-    }
-    if (locations.length === 1) {
-      return 13;
-    }
+    if (locations.length === 0) return defaultZoom;
+    if (locations.length === 1) return 13;
     return 6;
   };
 
@@ -79,9 +69,6 @@ const Map: React.FC = () => {
       
       {loading && <p>Carregando mapa...</p>}
       {error && <p style={{ color: 'red' }}>Erro: {error}</p>}
-      {!loading && locations.length === 0 && !error && (
-        <p>Nenhum local cadastrado. Adicione locais através da API.</p>
-      )}
 
       <div style={{ height: '600px', width: '100%', marginTop: '20px' }}>
         <MapContainer
@@ -106,10 +93,10 @@ const Map: React.FC = () => {
                     {location.description}
                   </>
                 )}
-                {location.address && (
+                {location.category && (
                   <>
                     <br />
-                    <small>{location.address}</small>
+                    <small>Categoria: {location.category}</small>
                   </>
                 )}
               </Popup>
@@ -117,15 +104,6 @@ const Map: React.FC = () => {
           ))}
         </MapContainer>
       </div>
-
-      {!loading && locations.length > 0 && (
-        <div style={{ marginTop: '20px' }}>
-          <p><strong>{locations.length}</strong> local(is) cadastrado(s)</p>
-        </div>
-      )}
     </div>
   );
 };
-
-export default Map;
-

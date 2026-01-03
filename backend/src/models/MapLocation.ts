@@ -31,6 +31,12 @@ const mapLocationSchema = new Schema<IMapLocationDocument>(
     address: { 
       type: String, 
       default: '' 
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: ['restaurant', 'bar', 'cafe', 'hotel', 'other'],
+      default: 'other'
     }
   },
   {

@@ -42,6 +42,7 @@ export interface IMapLocation {
   longitude: number;
   description?: string;
   address?: string;
+  category: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -52,6 +53,7 @@ export interface NewMapLocation {
   longitude: number;
   description?: string;
   address?: string;
+  category: string;
 }
 
 export interface MapLocationUpdate {
@@ -60,6 +62,7 @@ export interface MapLocationUpdate {
   longitude?: number;
   description?: string;
   address?: string;
+  category?: string;
 }
 
 export interface ICalendarEvent {

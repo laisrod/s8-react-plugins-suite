@@ -33,6 +33,7 @@ export interface IUser {
     longitude: number;
     description?: string;
     address?: string;
+    category?: string;
     createdAt?: string;
     updatedAt?: string;
   }

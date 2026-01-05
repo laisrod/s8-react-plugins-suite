@@ -36,6 +36,23 @@ export type CreateMapLocationDTO = Omit<IMapLocation, '_id' | 'createdAt' | 'upd
 // Tipo para atualizar MapLocation
 export type UpdateMapLocationDTO = Partial<Omit<IMapLocation, '_id' | 'createdAt' | 'updatedAt'>>;
 
+// Interface para CalendarEvent
+export interface ICalendarEvent {
+  _id?: string;
+  title: string;
+  date: Date;
+  color: string;
+  description?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+// Tipo para criar CalendarEvent
+export type CreateCalendarEventDTO = Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>;
+
+// Tipo para atualizar CalendarEvent
+export type UpdateCalendarEventDTO = Partial<Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>>;
+
 // Tipo para resposta da API
 export interface ApiResponse<T> {
   success: boolean;

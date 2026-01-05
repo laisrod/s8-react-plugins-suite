@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { connectDB } from './config/database.js';
 import { router as userRoutes } from './routes/userRoutes.js';
 import { router as mapLocationRoutes } from './routes/mapLocationRoutes.js';
+import { router as calendarEventRoutes } from './routes/calendarEventRoutes.js';
 
 // Carregar variáveis de ambiente
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(express.json()); // Permite receber JSON no body
 // Rotas
 app.use('/api/users', userRoutes);
 app.use('/api/map-locations', mapLocationRoutes);
+app.use('/api/calendar-events', calendarEventRoutes);
 
 // Rota de teste
 app.get('/', (req: Request, res: Response) => {

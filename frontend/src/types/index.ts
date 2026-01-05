@@ -43,3 +43,20 @@ export interface IUser {
 
   // Tipo para atualizar MapLocation
   export type UpdateMapLocationDTO = Partial<Omit<IMapLocation, '_id' | 'createdAt' | 'updatedAt'>>;
+
+  // Interface para CalendarEvent
+  export interface ICalendarEvent {
+    _id?: string;
+    title: string;
+    date: string; // Date vira string no JSON
+    color: string;
+    description?: string;
+    createdAt?: string;
+    updatedAt?: string;
+  }
+
+  // Tipo para criar CalendarEvent
+  export type CreateCalendarEventDTO = Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>;
+
+  // Tipo para atualizar CalendarEvent
+  export type UpdateCalendarEventDTO = Partial<Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>>;

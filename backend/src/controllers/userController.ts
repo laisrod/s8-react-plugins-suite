@@ -59,7 +59,34 @@ export const createUser = async (
 ): Promise<void> => {
   try {
     const userData: CreateUserDTO = req.body;
-    const newUser = new User(userData);
+
+    // Validação básica
+    if (!userData.first || !userData.last || !userData.email) {
+      res.status(400).json({
+        success: false,
+        error: 'Campos obrigatórios: first, last e email são necessários'
+      });
+      return;
+    }
+
+    // Limpar campos opcionais vazios
+    const cleanedData: CreateUserDTO = {
+      first: userData.first.trim(),
+      last: userData.last.trim(),
+      email: userData.email.trim().toLowerCase(),
+    };
+
+    if (userData.phone?.trim()) {
+      cleanedData.phone = userData.phone.trim();
+    }
+    if (userData.location?.trim()) {
+      cleanedData.location = userData.location.trim();
+    }
+    if (userData.hobby?.trim()) {
+      cleanedData.hobby = userData.hobby.trim();
+    }
+
+    const newUser = new User(cleanedData);
     const savedUser: IUser = await newUser.save();
     
     res.status(201).json({
@@ -68,7 +95,32 @@ export const createUser = async (
       message: 'Usuário criado com sucesso'
     });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+    let errorMessage = 'Erro ao criar usuário';
+    
+    if (error instanceof Error) {
+      // Tratamento de erros específicos do Mongoose
+      if (error.name === 'ValidationError') {
+        const validationError = error as any;
+        const fieldErrors = Object.keys(validationError.errors || {}).map(
+          (key) => `${key}: ${validationError.errors[key].message}`
+        );
+        errorMessage = fieldErrors.length > 0 
+          ? `Erro de validação: ${fieldErrors.join(', ')}`
+          : `Erro de validação: ${error.message}`;
+      } else if (error.name === 'MongoServerError' && (error as any).code === 11000) {
+        errorMessage = 'Email já está em uso. Por favor, use outro email.';
+      } else {
+        errorMessage = error.message;
+      }
+    }
+
+    console.error('Erro ao criar usuário:', {
+      error,
+      errorName: error instanceof Error ? error.name : 'Unknown',
+      errorMessage: error instanceof Error ? error.message : 'Unknown',
+      userData: req.body
+    });
+    
     res.status(400).json({
       success: false,
       error: errorMessage

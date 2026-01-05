@@ -1,20 +1,15 @@
-import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { useCalendar } from '../../hooks';
 import './Calendar.css';
 
+/**
+ * Componente de calendário
+ * Responsabilidade: Apenas renderização da UI
+ * Lógica está no hook useCalendar
+ */
 const CalendarComponent = () => {
-  const [date, setDate] = useState<Date | null>(new Date());
-
-  const handleDateChange = (value: Date | [Date | null, Date | null] | null) => {
-    if (value instanceof Date) {
-      setDate(value);
-    } else if (Array.isArray(value) && value[0] instanceof Date) {
-      setDate(value[0]);
-    } else {
-      setDate(null);
-    }
-  };
+  const { date, handleDateChange, formattedDate } = useCalendar();
 
   return (
     <div className="calendar-container">
@@ -26,16 +21,10 @@ const CalendarComponent = () => {
           className="react-calendar"
         />
       </div>
-      {date && (
+      {formattedDate && (
         <div className="selected-date">
           <p>
-            <strong>Data selecionada:</strong>{' '}
-            {date instanceof Date && date.toLocaleDateString('pt-BR', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+            <strong>Data selecionada:</strong> {formattedDate}
           </p>
         </div>
       )}

@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import Home from './components/Home/Home';
-import Map from './components/Map/Map';
-import Calendar from './components/Calendar/Calendar';
-import Charts from './components/Charts/Charts';
-import Users from './components/Users/Users';
+import Home from './components/Home';
+import Map from './components/Map';
+import Calendar from './components/Calendar';
+import Charts from './components/Charts';
+import Users from './components/Users';
 import './App.css';
 
 const App = () => {

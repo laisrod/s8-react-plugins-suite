@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database.js';
 import { router as userRoutes } from './routes/userRoutes.js';
+import { router as mapLocationRoutes } from './routes/mapLocationRoutes.js';
 
 // Carregar variáveis de ambiente
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.json()); // Permite receber JSON no body
 
 // Rotas
 app.use('/api/users', userRoutes);
+app.use('/api/map-locations', mapLocationRoutes);
 
 // Rota de teste
 app.get('/', (req: Request, res: Response) => {
@@ -27,11 +29,11 @@ const startServer = async (): Promise<void> => {
   try {
     await connectDB();
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor rodando na porta ${PORT}`);
-      console.log(`📡 API disponível em http://localhost:${PORT}`);
+      console.log(`Servidor rodando na porta ${PORT}`);
+      console.log(`API disponível em http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error('❌ Erro ao iniciar servidor:', error);
+    console.error('Erro ao iniciar servidor:', error);
     process.exit(1);
   }
 };

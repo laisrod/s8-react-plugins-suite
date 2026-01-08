@@ -52,10 +52,14 @@ export const fetchCalendarEventById = async (id: string): Promise<ApiResponse<IC
 };
 
 // Criar evento
-export const createCalendarEvent = async (eventData: CreateCalendarEventDTO): Promise<ApiResponse<ICalendarEvent>> => {
+export const createCalendarEvent = async (eventData: CreateCalendarEventDTO | { title?: string; date: Date | string; color?: string; description?: string }): Promise<ApiResponse<ICalendarEvent>> => {
+  const dateValue = eventData.date instanceof Date 
+    ? eventData.date.toISOString() 
+    : (typeof eventData.date === 'string' ? eventData.date : new Date().toISOString());
+  
   const cleanedData: CreateCalendarEventDTO = {
     title: eventData.title?.trim() || '',
-    date: typeof eventData.date === 'string' ? eventData.date : eventData.date.toISOString(),
+    date: dateValue,
     color: eventData.color || 'blue',
     description: eventData.description?.trim() || ''
   };
@@ -69,13 +73,13 @@ export const createCalendarEvent = async (eventData: CreateCalendarEventDTO): Pr
 };
 
 // Atualizar evento
-export const updateCalendarEvent = async (id: string, eventData: UpdateCalendarEventDTO): Promise<ApiResponse<ICalendarEvent>> => {
+export const updateCalendarEvent = async (id: string, eventData: UpdateCalendarEventDTO | { title?: string; date?: Date | string; color?: string; description?: string }): Promise<ApiResponse<ICalendarEvent>> => {
   const cleanedData: UpdateCalendarEventDTO = {};
   if (eventData.title) cleanedData.title = eventData.title.trim();
-  if (eventData.date) {
-    cleanedData.date = typeof eventData.date === 'string' 
-      ? eventData.date 
-      : eventData.date.toISOString();
+  if (eventData.date !== undefined) {
+    cleanedData.date = eventData.date instanceof Date 
+      ? eventData.date.toISOString() 
+      : (typeof eventData.date === 'string' ? eventData.date : String(eventData.date));
   }
   if (eventData.color) cleanedData.color = eventData.color;
   if (eventData.description !== undefined) {

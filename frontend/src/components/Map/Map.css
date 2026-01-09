@@ -1,25 +1,24 @@
 /* Map Container */
 .map-container {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: var(--spacing-2xl) auto;
-  padding: var(--spacing-xl);
+  padding: var(--spacing-2xl) var(--spacing-2xl);
+  min-height: calc(100vh - 200px);
   position: relative;
   animation: fadeIn 0.5s ease-in;
 }
 
 .map-container h1 {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: var(--spacing-xl);
+  color: #06b6d4;
+  margin-bottom: var(--spacing-2xl);
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 4rem;
   font-weight: 800;
+  text-shadow: 0 2px 20px rgba(6, 182, 212, 0.3);
 }
 
 .map-container .leaflet-container {
-  height: 650px;
+  height: 750px;
   width: 100%;
   z-index: 0;
   position: relative;
@@ -34,15 +33,16 @@
 }
 
 .map-container .leaflet-popup-content {
-  margin: var(--spacing-md);
-  line-height: 1.6;
+  margin: var(--spacing-lg);
+  line-height: 1.8;
   color: var(--text-primary);
+  font-size: 1.1rem;
 }
 
 .map-wrapper {
-  height: 650px;
+  height: 750px;
   width: 100%;
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-xl);
   position: relative;
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -51,24 +51,25 @@
 .map-error {
   color: var(--error);
   text-align: center;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
   background: rgba(239, 68, 68, 0.1);
   border-radius: var(--radius-md);
   margin: var(--spacing-lg) 0;
+  font-size: 1.2rem;
 }
 
 /* Map Filters */
 .map-filters-container {
   position: absolute;
-  top: var(--spacing-lg);
-  right: var(--spacing-lg);
+  top: var(--spacing-xl);
+  right: var(--spacing-xl);
   background: var(--bg-primary);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-xl);
   z-index: 10000;
-  min-width: 250px;
-  max-height: 500px;
+  min-width: 300px;
+  max-height: 600px;
   overflow-y: auto;
   border: 1px solid var(--border-color);
   backdrop-filter: blur(10px);
@@ -76,22 +77,22 @@
 
 .map-filters-title {
   margin-top: 0;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
   color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding-bottom: var(--spacing-sm);
+  padding-bottom: var(--spacing-md);
   border-bottom: 2px solid var(--border-color);
 }
 
 .map-filters-label {
   display: flex;
   align-items: center;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
   cursor: pointer;
-  padding: var(--spacing-sm);
+  padding: var(--spacing-md);
   border-radius: var(--radius-md);
   transition: all var(--transition-base);
 }
@@ -101,26 +102,57 @@
 }
 
 .map-filters-checkbox {
-  margin-right: var(--spacing-md);
-  width: 18px;
-  height: 18px;
+  margin-right: var(--spacing-lg);
+  width: 22px;
+  height: 22px;
   cursor: pointer;
-  accent-color: var(--primary);
+  accent-color: #06b6d4;
 }
 
 .map-filters-text {
   color: var(--text-primary);
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   font-weight: 500;
   flex: 1;
 }
 
 .map-filters-label:has(input:checked) .map-filters-text {
-  color: var(--primary);
+  color: #06b6d4;
   font-weight: 600;
 }
 
-@media (max-width: 768px) {
+/* Tablet Styles */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .map-container {
+    max-width: 1400px;
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+
+  .map-container h1 {
+    font-size: 3.5rem;
+  }
+
+  .map-container .leaflet-container,
+  .map-wrapper {
+    height: 600px;
+  }
+
+  .map-filters-container {
+    min-width: 280px;
+    padding: var(--spacing-lg);
+  }
+
+  .map-filters-title {
+    font-size: 1.3rem;
+  }
+
+  .map-filters-text {
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 767px) {
   .map-container {
     padding: var(--spacing-md);
     margin: var(--spacing-lg) auto;

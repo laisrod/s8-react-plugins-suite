@@ -30,10 +30,15 @@ export const useMapFilters = ({
   onCategoryToggle,
   categoryCounts
 }: UseMapFiltersProps): UseMapFiltersReturn => {
-  // Memoizar a criação dos handlers para evitar re-criação
+  // ============================================================
+  // FLUXO DE FILTRAGEM: Usuário clica → Estado muda
+  // ============================================================
+  // Esta função é chamada quando o usuário clica em um checkbox
+  // Ela apenas repassa a chamada para onCategoryToggle (que vem de useMap)
+  // que atualizará o estado selectedCategories
   const handleCategoryChange = useCallback(
     (category: Category) => {
-      onCategoryToggle(category);
+      onCategoryToggle(category); // REPASSA PARA useMap → Estado muda
     },
     [onCategoryToggle]
   );

@@ -19,6 +19,7 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 const Map = () => {
+  //Ccarregamento
   const {
     loading,
     error,
@@ -30,6 +31,7 @@ const Map = () => {
     handleCategoryToggle,
   } = useMap();
 
+  
   return (
     <div className="map-container">
       <h1>Mapa</h1>

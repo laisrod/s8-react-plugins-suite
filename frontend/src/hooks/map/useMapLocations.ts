@@ -10,6 +10,10 @@ interface UseMapLocationsReturn {
 }
 
 export const useMapLocations = (): UseMapLocationsReturn => {
+  // ============================================================
+  // FLUXO DE CARREGAMENTO: Componente monta → Hook busca dados
+  // ============================================================
+  // Estados iniciais: locations vazio, loading true, error null
   const [locations, setLocations] = useState<IMapLocation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,10 +22,12 @@ export const useMapLocations = (): UseMapLocationsReturn => {
     try {
       setLoading(true);
       setError(null);
+
       const response = await fetchMapLocations();
       
+
       if (response.success && response.data) {
-        setLocations(response.data);
+        setLocations(response.data); // ESTADO ATUALIZA AQUI
       } else {
         setError(response.error || 'Erro ao carregar locais');
       }
@@ -33,8 +39,9 @@ export const useMapLocations = (): UseMapLocationsReturn => {
     }
   };
 
+
   useEffect(() => {
-    void loadLocations();
+    void loadLocations(); // BUSCA DADOS AQUI
   }, []);
 
   return {

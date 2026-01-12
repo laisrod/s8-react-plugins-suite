@@ -6,10 +6,6 @@ interface UseCalendarReturn {
   formattedDate: string | null;
 }
 
-/**
- * Hook para gerenciar o estado do calendário
- * Responsabilidade: Gerenciar data selecionada e formatação
- */
 export const useCalendar = (): UseCalendarReturn => {
   const [date, setDate] = useState<Date | null>(new Date());
 

@@ -1,15 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEventModal, COLORS } from '../../hooks/calendar/useEventModal';
 import type { EventModalProps } from '../../types/index';
 import '../../css/Calendar.css';
-
-const COLORS = [
-  { value: 'blue', label: 'Azul', color: '#3498db' },
-  { value: 'green', label: 'Verde', color: '#2ecc71' },
-  { value: 'teal', label: 'Verde-água', color: '#1abc9c' },
-  { value: 'red', label: 'Vermelho', color: '#e74c3c' },
-  { value: 'orange', label: 'Laranja', color: '#f39c12' },
-  { value: 'purple', label: 'Roxo', color: '#9b59b6' }
-];
 
 const EventModal = ({
   isOpen,
@@ -18,61 +9,22 @@ const EventModal = ({
   onSave,
   onDelete
 }: EventModalProps) => {
-  const [title, setTitle] = useState('');
-  const [color, setColor] = useState('blue');
-  const [description, setDescription] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-
-  useEffect(() => {
-    if (event) {
-      setTitle(event.title || '');
-      setColor(event.color || 'blue');
-      setDescription(event.description || '');
-      setIsDeleting(false);
-    }
-  }, [event]);
+  const {
+    title,
+    setTitle,
+    color,
+    setColor,
+    description,
+    setDescription,
+    isDeleting,
+    setIsDeleting,
+    isSaving,
+    handleSave,
+    handleDelete,
+    selectedColor
+  } = useEventModal({ event, onSave, onDelete, onClose });
 
   if (!isOpen || !event) return null;
-
-  const handleSave = async () => {
-    if (!title.trim()) {
-      alert('O título é obrigatório');
-      return;
-    }
-
-    setIsSaving(true);
-    try {
-      await onSave(event._id!, {
-        title: title.trim(),
-        color,
-        description: description.trim()
-      });
-      onClose();
-    } catch (error) {
-      console.error('Erro ao salvar evento:', error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (!isDeleting) {
-      setIsDeleting(true);
-      return;
-    }
-
-    if (!event._id) return;
-
-    try {
-      await onDelete(event._id);
-      onClose();
-    } catch (error) {
-      console.error('Erro ao deletar evento:', error);
-    }
-  };
-
-  const selectedColor = COLORS.find(c => c.value === color);
 
   return (
     <div className="event-modal-overlay" onClick={onClose}>
@@ -114,6 +66,19 @@ const EventModal = ({
             <div
               className="event-modal-color-preview"
               style={{ backgroundColor: selectedColor?.color }}
+            />
+          </div>
+
+          {/* Campo de descrição - estava faltando */}
+          <div className="event-modal-field">
+            <label htmlFor="event-description">Descrição:</label>
+            <textarea
+              id="event-description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Descrição do evento"
+              className="event-modal-textarea"
+              rows={3}
             />
           </div>
 
@@ -164,4 +129,3 @@ const EventModal = ({
 };
 
 export default EventModal;
-

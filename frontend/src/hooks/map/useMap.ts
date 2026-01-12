@@ -20,10 +20,6 @@ interface UseMapReturn {
 const DEFAULT_CENTER: [number, number] = [-14.235, -51.925]; // Brasil
 const DEFAULT_ZOOM = 4;
 
-/**
- * Hook principal para gerenciar o mapa
- * Responsabilidade: Orquestrar toda a lógica do mapa
- */
 export const useMap = (): UseMapReturn => {
   const { locations, loading, error } = useMapLocations();
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([...CATEGORIES]);
@@ -37,26 +33,26 @@ export const useMap = (): UseMapReturn => {
       hotel: 0,
       shopping: 0,
       other: 0
-    };
+    }; //obj com contadores zerados
     
-    locations.forEach(location => {
+    locations.forEach(location => { //itera sobre todos os locais
       const cat = location.category as Category;
       if (cat && cat in counts) {
         counts[cat] = (counts[cat] || 0) + 1;
       }
     });
     
-    return counts;
+    return counts; //retorna obj com as contagens
   }, [locations]);
 
-  // Filtrar locais: mostrar apenas os que estão nas categorias selecionadas
+  // filtra locais baseado nas categorias selecionadas
   const filteredLocations = useMemo(() => {
     return locations.filter(location =>
       selectedCategories.includes(location.category as Category)
     );
   }, [locations, selectedCategories]);
 
-  // Calcular centro do mapa baseado nos locais filtrados
+  // calcula centro do mapa baseado nos locais filtrados
   const mapCenter = useMemo((): [number, number] => {
     if (filteredLocations.length === 0) return DEFAULT_CENTER;
     const avgLat = filteredLocations.reduce((sum, loc) => sum + loc.latitude, 0) / filteredLocations.length;
@@ -64,14 +60,14 @@ export const useMap = (): UseMapReturn => {
     return [avgLat, avgLng];
   }, [filteredLocations]);
 
-  // Calcular zoom do mapa baseado na quantidade de locais
+  // calcula zoom do mapa baseado na quantidade de locais
   const mapZoom = useMemo((): number => {
     if (filteredLocations.length === 0) return DEFAULT_ZOOM;
     if (filteredLocations.length === 1) return 13;
     return 6;
   }, [filteredLocations]);
 
-  // Função para alternar uma categoria
+  // função p alternar uma categoria
   const handleCategoryToggle = useCallback((category: Category) => {
     setSelectedCategories(prev =>
       prev.includes(category)
@@ -80,12 +76,12 @@ export const useMap = (): UseMapReturn => {
     );
   }, []);
 
-  // Selecionar todas as categorias
+  // selecionar todas as categorias
   const selectAllCategories = useCallback(() => {
     setSelectedCategories([...CATEGORIES]);
   }, []);
 
-  // Desselecionar todas as categorias
+  // desselecionar todas as categorias
   const deselectAllCategories = useCallback(() => {
     setSelectedCategories([]);
   }, []);

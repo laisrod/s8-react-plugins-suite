@@ -9,10 +9,6 @@ interface UseChartsReturn {
   doughnutData: DoughnutChartData;
 }
 
-/**
- * Hook para gerenciar dados dos gráficos
- * Responsabilidade: Preparar dados para os gráficos Chart.js
- */
 export const useCharts = (): UseChartsReturn => {
   const lineData = useMemo<LineChartData>(() => ({
     labels: [...DEFAULT_LABELS],

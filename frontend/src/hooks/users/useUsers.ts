@@ -19,15 +19,6 @@ interface UseUsersReturn {
   refetch: () => Promise<void>;
 }
 
-/**
- * Hook principal para gerenciar usuários
- * Responsabilidade: Orquestrar os hooks menores e fornecer interface unificada
- * 
- * Este hook combina:
- * - useUserState: Gerenciamento de estado local
- * - useUserFetch: Busca de dados da API
- * - useUserOperations: Operações CRUD
- */
 export const useUsers = (): UseUsersReturn => {
   const { users, setUsers, addUser, updateUserInList, removeUser } = useUserState();
   const { loading, error: fetchError, fetchUsers } = useUserFetch();

@@ -7,6 +7,7 @@ const fetchAPI = async <T>(
   options?: RequestInit
 ): Promise<ApiResponse<T>> => {
   try {
+
     const response = await fetch(`${API_URL}${endpoint}`, {
       headers: {
         'Content-Type': 'application/json',

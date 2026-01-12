@@ -6,17 +6,13 @@ import EventModal from './EventModal';
 import type { ICalendarEvent } from '../../types/index';
 import '../../css/Calendar.css';
 
-/**
- * Componente de calendário
- * Responsabilidade: Renderização da UI e gerenciamento de eventos
- */
+
 const CalendarComponent = () => {
   const { date, handleDateChange, formattedDate } = useCalendar();
   const { events, error, updateEvent, deleteEvent } = useCalendarEvents();
   const [selectedEvent, setSelectedEvent] = useState<ICalendarEvent | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Agrupar eventos por data
   const eventsByDate = useMemo(() => {
     const grouped: Record<string, ICalendarEvent[]> = {};
     events.forEach(event => {
@@ -29,12 +25,10 @@ const CalendarComponent = () => {
     return grouped;
   }, [events]);
 
-  // Formatar data para chave (YYYY-MM-DD)
   const formatDateKey = (date: Date): string => {
     return date.toISOString().split('T')[0];
   };
 
-  // Renderizar eventos no tile do calendário
   const tileContent = ({ date, view }: { date: Date; view: string }) => {
     if (view !== 'month') return null;
 

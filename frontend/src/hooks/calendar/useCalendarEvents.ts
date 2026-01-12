@@ -17,10 +17,6 @@ interface UseCalendarEventsReturn {
   refetch: () => Promise<void>;
 }
 
-/**
- * Hook para gerenciar eventos do calendário
- * Responsabilidade: Buscar, criar, atualizar e deletar eventos
- */
 export const useCalendarEvents = (): UseCalendarEventsReturn => {
   const [events, setEvents] = useState<ICalendarEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

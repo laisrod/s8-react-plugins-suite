@@ -1,7 +1,7 @@
 import { Line, Bar, Pie, Doughnut } from 'react-chartjs-2';
 import { registerChartJS } from './config';
 import { useCharts } from '../../hooks';
-import './Charts.css';
+import '../../css/Charts.css';
 
 registerChartJS();
 
@@ -11,7 +11,7 @@ const Charts = () => {
 
   return (
     <div className="charts-container">
-      <h1>Gráficos (Chart.js)</h1>
+      <h1>Gráficos</h1>
       
       <div className="charts-grid">
         <div className="chart-item">

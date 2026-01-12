@@ -1,5 +1,12 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import type { FormEvent } from 'react';
 import type { IUser, CreateUserDTO } from '../../types/index';
+
+interface UseUserFormProps {
+  createUserHandler: (data: CreateUserDTO) => Promise<boolean>;
+  updateUserHandler: (id: string, data: CreateUserDTO) => Promise<boolean>;
+  deleteUserHandler: (id: string) => Promise<boolean>;
+}
 
 interface UseUserFormReturn {
   formData: CreateUserDTO;
@@ -12,6 +19,9 @@ interface UseUserFormReturn {
   resetForm: () => void;
   handleCancel: () => void;
   openForm: () => void;
+  handleCreate: (e: FormEvent) => Promise<void>;
+  handleUpdate: (e: FormEvent) => Promise<void>;
+  handleDelete: (id: string) => Promise<void>;
 }
 
 const initialFormData: CreateUserDTO = {
@@ -23,7 +33,11 @@ const initialFormData: CreateUserDTO = {
   hobby: ''
 };
 
-export const useUserForm = (): UseUserFormReturn => {
+export const useUserForm = ({
+  createUserHandler,
+  updateUserHandler,
+  deleteUserHandler,
+}: UseUserFormProps): UseUserFormReturn => {
   const [formData, setFormData] = useState<CreateUserDTO>(initialFormData);
   const [editingUser, setEditingUser] = useState<IUser | null>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
@@ -56,6 +70,43 @@ export const useUserForm = (): UseUserFormReturn => {
     setShowForm(true);
   };
 
+  // Helper para executar ação do formulário
+  const executeFormAction = useCallback(
+    async (action: () => Promise<boolean>): Promise<void> => {
+      const success = await action();
+      if (success) {
+        handleCancel();
+      }
+    },
+    [handleCancel]
+  );
+
+  const handleCreate = useCallback(
+    async (e: FormEvent): Promise<void> => {
+      e.preventDefault();
+      await executeFormAction(() => createUserHandler(formData));
+    },
+    [createUserHandler, formData, executeFormAction]
+  );
+
+  const handleUpdate = useCallback(
+    async (e: FormEvent): Promise<void> => {
+      e.preventDefault();
+      if (!editingUser?._id) return;
+
+      const userId = editingUser._id;
+      await executeFormAction(() => updateUserHandler(userId, formData));
+    },
+    [updateUserHandler, editingUser, formData, executeFormAction]
+  );
+
+  const handleDelete = useCallback(
+    async (id: string): Promise<void> => {
+      await deleteUserHandler(id);
+    },
+    [deleteUserHandler]
+  );
+
   return {
     formData,
     editingUser,
@@ -66,7 +117,10 @@ export const useUserForm = (): UseUserFormReturn => {
     startEdit,
     resetForm,
     handleCancel,
-    openForm
+    openForm,
+    handleCreate,
+    handleUpdate,
+    handleDelete,
   };
 };
 

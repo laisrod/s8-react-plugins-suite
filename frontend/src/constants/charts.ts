@@ -1,16 +1,8 @@
-/**
- * Labels padrão para os gráficos
- */
 export const DEFAULT_LABELS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'] as const;
 
-/**
- * Labels para gráficos de pizza/rosca
- */
 export const PIE_LABELS = ['Vermelho', 'Azul', 'Amarelo', 'Verde', 'Roxo'] as const;
 
-/**
- * Cores padrão para gráficos
- */
+
 export const CHART_COLORS = {
   line: {
     border: 'rgb(75, 192, 192)',

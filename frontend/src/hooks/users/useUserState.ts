@@ -11,7 +11,7 @@ interface UseUserStateReturn {
 
 /**
  * Hook para gerenciar o estado da lista de usuários
- * Responsabilidade: Apenas gerenciar o estado local dos usuários
+ *  Apenas gerenciar o estado local dos usuários
  */
 export const useUserState = (): UseUserStateReturn => {
   const [users, setUsers] = useState<IUser[]>([]);

@@ -1,14 +1,6 @@
 import { useState, useEffect } from 'react';
-import type { ICalendarEvent, UpdateCalendarEventDTO } from '../../types/index';
-import './Calendar.css';
-
-interface EventModalProps {
-  isOpen: boolean;
-  event: ICalendarEvent | null;
-  onClose: () => void;
-  onSave: (id: string, data: UpdateCalendarEventDTO) => Promise<void>;
-  onDelete: (id: string) => Promise<void>;
-}
+import type { EventModalProps } from '../../types/index';
+import '../../css/Calendar.css';
 
 const COLORS = [
   { value: 'blue', label: 'Azul', color: '#3498db' },

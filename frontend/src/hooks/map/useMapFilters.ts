@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
-import type { Category } from '../../components/Map/types';
-import { CATEGORIES, CATEGORY_LABELS } from '../../components/Map/constants';
+import type { Category } from '../../types';
+import { CATEGORIES, CATEGORY_LABELS } from '../../constants';
 
 interface UseMapFiltersProps {
   selectedCategories: Category[];

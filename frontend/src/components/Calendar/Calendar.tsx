@@ -4,7 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import { useCalendar, useCalendarEvents } from '../../hooks';
 import EventModal from './EventModal';
 import type { ICalendarEvent } from '../../types/index';
-import './Calendar.css';
+import '../../css/Calendar.css';
 
 /**
  * Componente de calendário
@@ -78,7 +78,7 @@ const CalendarComponent = () => {
 
   return (
     <div className="calendar-container">
-      <h1>Calendário Completo</h1>
+      <h1>Calendário</h1>
       
       {error && (
         <div style={{ color: '#e74c3c', textAlign: 'center', marginBottom: '1rem' }}>

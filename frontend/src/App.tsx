@@ -5,7 +5,7 @@ import Map from './components/Map';
 import Calendar from './components/Calendar';
 import Charts from './components/Charts';
 import Users from './components/Users';
-import './App.css';
+import './css/App.css';
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

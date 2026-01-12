@@ -3,9 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import MapFilters from './MapFilters';
 import { useMap } from '../../hooks';
-import './Map.css';
-
-// Fix para ícones do Leaflet
+import '../../css/Map.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
@@ -20,11 +18,6 @@ const DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-/**
- * Componente principal do mapa
- * Responsabilidade: Apenas renderização da UI
- * Toda lógica está no hook useMap
- */
 const Map = () => {
   const {
     loading,
@@ -39,7 +32,7 @@ const Map = () => {
 
   return (
     <div className="map-container">
-      <h1>Mapa Interativo</h1>
+      <h1>Mapa</h1>
       
       {loading && <p>Carregando mapa...</p>}
       {error && <p className="map-error">Erro: {error}</p>}

@@ -1,3 +1,6 @@
+import type { ChartData, ChartOptions } from 'chart.js';
+import type { FormEvent } from 'react';
+
 // Interface do usuário (mesma do backend)
 export interface IUser {
     _id?: string;
@@ -60,3 +63,77 @@ export interface IUser {
 
   // Tipo para atualizar CalendarEvent
   export type UpdateCalendarEventDTO = Partial<Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>>;
+
+  // Tipos para Charts (Chart.js)
+  /**
+   * Tipo para dados de gráfico de linha
+   */
+  export interface LineChartData extends ChartData<'line'> {}
+
+  /**
+   * Tipo para dados de gráfico de barras
+   */
+  export interface BarChartData extends ChartData<'bar'> {}
+
+  /**
+   * Tipo para dados de gráfico de pizza
+   */
+  export interface PieChartData extends ChartData<'pie'> {}
+
+  /**
+   * Tipo para dados de gráfico de rosca
+   */
+  export interface DoughnutChartData extends ChartData<'doughnut'> {}
+
+  /**
+   * Tipo para opções de gráfico
+   */
+  export type ChartOptionsType = ChartOptions<'line' | 'bar' | 'pie' | 'doughnut'>;
+
+  // Tipo para categorias do mapa
+  export type Category = 'restaurant' | 'park' | 'museum' | 'hotel' | 'shopping' | 'other';
+
+  // Interfaces de Props dos Componentes
+  /**
+   * Props do componente UserForm
+   */
+  export interface UserFormProps {
+    formData: CreateUserDTO;
+    editingUser: IUser | null;
+    onFormDataChange: (data: CreateUserDTO) => void;
+    onSubmit: (e: FormEvent) => Promise<void>;
+    onCancel: () => void;
+  }
+
+  /**
+   * Props do componente ConfirmModal
+   */
+  export interface ConfirmModalProps {
+    isOpen: boolean;
+    title: string;
+    message: string;
+    confirmText?: string;
+    cancelText?: string;
+    onConfirm: () => void;
+    onCancel: () => void;
+  }
+
+  /**
+   * Props do componente EventModal
+   */
+  export interface EventModalProps {
+    isOpen: boolean;
+    event: ICalendarEvent | null;
+    onClose: () => void;
+    onSave: (id: string, data: UpdateCalendarEventDTO) => Promise<void>;
+    onDelete: (id: string) => Promise<void>;
+  }
+
+  /**
+   * Props do componente MapFilters
+   */
+  export interface MapFiltersProps {
+    selectedCategories: Category[];
+    onCategoryToggle: (category: Category) => void;
+    categoryCounts: Record<Category, number>;
+  }

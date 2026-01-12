@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import type { LineChartData, BarChartData, PieChartData, DoughnutChartData } from '../../components/Charts/types';
-import { DEFAULT_LABELS, PIE_LABELS, CHART_COLORS } from '../../components/Charts/constants';
+import type { LineChartData, BarChartData, PieChartData, DoughnutChartData } from '../../types';
+import { DEFAULT_LABELS, PIE_LABELS, CHART_COLORS } from '../../constants';
 
 interface UseChartsReturn {
   lineData: LineChartData;

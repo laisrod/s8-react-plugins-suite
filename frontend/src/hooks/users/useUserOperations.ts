@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { createUser, updateUser, deleteUser } from '../../services/api';
 import type { IUser, CreateUserDTO } from '../../types/index';
+import { executeAsyncOperation, executeDeleteOperation } from './utils';
 
 interface UseUserOperationsReturn {
   creating: boolean;
@@ -22,68 +23,41 @@ export const useUserOperations = (): UseUserOperationsReturn => {
   const [deleting, setDeleting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createUserHandler = useCallback(async (data: CreateUserDTO): Promise<IUser | null> => {
-    try {
-      setCreating(true);
-      setError(null);
-      
-      const response = await createUser(data);
-      
-      if (response.success && response.data) {
-        return response.data;
-      } else {
-        setError(response.error || 'Erro ao criar usuário');
-        return null;
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro desconhecido ao criar usuário');
-      return null;
-    } finally {
-      setCreating(false);
-    }
-  }, []);
+  const createUserHandler = useCallback(
+    async (data: CreateUserDTO): Promise<IUser | null> => {
+      return executeAsyncOperation(
+        () => createUser(data),
+        setCreating,
+        setError,
+        'Erro ao criar usuário'
+      );
+    },
+    []
+  );
 
-  const updateUserHandler = useCallback(async (id: string, data: CreateUserDTO): Promise<IUser | null> => {
-    try {
-      setUpdating(true);
-      setError(null);
-      
-      const response = await updateUser(id, data);
-      
-      if (response.success && response.data) {
-        return response.data;
-      } else {
-        setError(response.error || 'Erro ao atualizar usuário');
-        return null;
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro desconhecido ao atualizar usuário');
-      return null;
-    } finally {
-      setUpdating(false);
-    }
-  }, []);
+  const updateUserHandler = useCallback(
+    async (id: string, data: CreateUserDTO): Promise<IUser | null> => {
+      return executeAsyncOperation(
+        () => updateUser(id, data),
+        setUpdating,
+        setError,
+        'Erro ao atualizar usuário'
+      );
+    },
+    []
+  );
 
-  const deleteUserHandler = useCallback(async (id: string): Promise<boolean> => {
-    try {
-      setDeleting(true);
-      setError(null);
-      
-      const response = await deleteUser(id);
-      
-      if (response.success) {
-        return true;
-      } else {
-        setError(response.error || 'Erro ao deletar usuário');
-        return false;
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro desconhecido ao deletar usuário');
-      return false;
-    } finally {
-      setDeleting(false);
-    }
-  }, []);
+  const deleteUserHandler = useCallback(
+    async (id: string): Promise<boolean> => {
+      return executeDeleteOperation(
+        () => deleteUser(id),
+        setDeleting,
+        setError,
+        'Erro ao deletar usuário'
+      );
+    },
+    []
+  );
 
   return {
     creating,

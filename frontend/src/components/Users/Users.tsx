@@ -1,77 +1,27 @@
-import { useState, useEffect } from 'react';
-import type { FormEvent } from 'react';
-import { useUsers, useUserForm } from '../../hooks';
+import { useUsers, useUserForm, useDeleteModal } from '../../hooks';
 import UserForm from './UserForm';
 import ConfirmModal from './ConfirmModal';
-import './Users.css';
+import '../../css/Users.css';
 
 const Users = () => {
-  const { users, loading, error, createUserHandler, updateUserHandler, deleteUserHandler } = useUsers();
-  const { formData, editingUser, showForm, setFormData, startEdit, handleCancel, openForm } = useUserForm();
-  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; userId: string | null }>({
-    isOpen: false,
-    userId: null
+  const { users, loading, dismissibleError, dismissError, createUserHandler, updateUserHandler, deleteUserHandler } = useUsers();
+  const { formData, editingUser, showForm, setFormData, startEdit, handleCancel, openForm, handleCreate, handleUpdate, handleDelete } = useUserForm({
+    createUserHandler,
+    updateUserHandler,
+    deleteUserHandler,
   });
-  const [localError, setLocalError] = useState<string | null>(null);
-
-  // Sincronizar erro do hook com estado local para poder fechar
-  useEffect(() => {
-    if (error) {
-      console.log('Erro recebido no componente Users:', error);
-      setLocalError(error);
-    } else {
-      setLocalError(null);
-    }
-  }, [error]);
-
-  // Função para criar usuário
-  const handleCreate = async (e: FormEvent): Promise<void> => {
-    e.preventDefault();
-    const success = await createUserHandler(formData);
-    if (success) {
-      handleCancel();
-    }
-  };
-
-  // Função para atualizar usuário
-  const handleUpdate = async (e: FormEvent): Promise<void> => {
-    e.preventDefault();
-    if (!editingUser?._id) return;
-    
-    const success = await updateUserHandler(editingUser._id, formData);
-    if (success) {
-      handleCancel();
-    }
-  };
-
-  // Função para abrir modal de confirmação de delete
-  const openDeleteModal = (id: string): void => {
-    setDeleteModal({ isOpen: true, userId: id });
-  };
-
-  // Função para confirmar delete
-  const confirmDelete = async (): Promise<void> => {
-    if (deleteModal.userId) {
-      await deleteUserHandler(deleteModal.userId);
-      setDeleteModal({ isOpen: false, userId: null });
-    }
-  };
-
-  // Função para cancelar delete
-  const cancelDelete = (): void => {
-    setDeleteModal({ isOpen: false, userId: null });
-  };
+  const { deleteModal, openDeleteModal, closeDeleteModal, confirmDelete } = useDeleteModal();
 
   return (
     <div className="users-container">
-      <h1>CRUD de Usuários</h1>
+      <h1>Usuários</h1>
       
-      {localError && (
+      {dismissibleError && (
         <div className="error-message" role="alert">
-          <span><strong>Erro:</strong> {localError}</span>
+          <span><strong>Erro:</strong> {dismissibleError}</span>
           <button 
             className="error-close-btn"
-            onClick={() => setLocalError(null)}
+            onClick={dismissError}
             aria-label="Fechar mensagem de erro"
           >
             ×
@@ -104,8 +54,8 @@ const Users = () => {
         message="Tem certeza que deseja deletar este usuário? Esta ação não pode ser desfeita."
         confirmText="Deletar"
         cancelText="Cancelar"
-        onConfirm={confirmDelete}
-        onCancel={cancelDelete}
+        onConfirm={() => confirmDelete(handleDelete)}
+        onCancel={closeDeleteModal}
       />
 
       <div className="users-table-container">

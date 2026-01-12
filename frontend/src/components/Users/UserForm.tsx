@@ -1,14 +1,5 @@
-import type { FormEvent } from 'react';
-import type { IUser, CreateUserDTO } from '../../types/index';
-import './Users.css';
-
-interface UserFormProps {
-  formData: CreateUserDTO;
-  editingUser: IUser | null;
-  onFormDataChange: (data: CreateUserDTO) => void;
-  onSubmit: (e: FormEvent) => Promise<void>;
-  onCancel: () => void;
-}
+import type { UserFormProps, CreateUserDTO } from '../../types/index';
+import '../../css/Users.css';
 
 const UserForm = ({
   formData,

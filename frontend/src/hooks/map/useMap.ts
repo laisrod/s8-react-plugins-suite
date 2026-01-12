@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useMapLocations } from './useMapLocations';
-import type { Category } from '../../components/Map/types';
-import { CATEGORIES } from '../../components/Map/constants';
+import type { Category } from '../../types';
+import { CATEGORIES } from '../../constants';
 
 interface UseMapReturn {
   locations: ReturnType<typeof useMapLocations>['locations'];

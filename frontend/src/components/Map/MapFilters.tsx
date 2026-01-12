@@ -1,24 +1,7 @@
 import { memo } from 'react';
 import { useMapFilters } from '../../hooks';
-import type { Category } from './types';
+import type { MapFiltersProps } from '../../types';
 
-interface MapFiltersProps {
-  selectedCategories: Category[];
-  onCategoryToggle: (category: Category) => void;
-  categoryCounts: Record<Category, number>;
-}
-
-/**
- * Componente de filtros para o mapa
- * Permite filtrar locais por categoria
- * 
- * Responsabilidade: Renderização da UI
- * Lógica de dados está no hook useMapFilters
- * 
- * @param selectedCategories - Array de categorias selecionadas
- * @param onCategoryToggle - Função chamada ao alternar uma categoria
- * @param categoryCounts - Contagem de locais por categoria
- */
 const MapFilters = ({
   selectedCategories,
   onCategoryToggle,
@@ -57,5 +40,4 @@ const MapFilters = ({
   );
 };
 
-// Memoizar o componente para evitar re-renders quando props não mudam
 export default memo(MapFilters);

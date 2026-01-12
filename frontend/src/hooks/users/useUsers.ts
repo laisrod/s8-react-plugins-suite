@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { useUserState } from './useUserState';
 import { useUserFetch } from './useUserFetch';
 import { useUserOperations } from './useUserOperations';
@@ -11,6 +11,8 @@ interface UseUsersReturn {
   updating: boolean;
   deleting: boolean;
   error: string | null;
+  dismissibleError: string | null;
+  dismissError: () => void;
   createUserHandler: (data: CreateUserDTO) => Promise<boolean>;
   updateUserHandler: (id: string, data: CreateUserDTO) => Promise<boolean>;
   deleteUserHandler: (id: string) => Promise<boolean>;
@@ -92,6 +94,24 @@ export const useUsers = (): UseUsersReturn => {
   // Priorizar erro de operações sobre erro de fetch
   const error = operationsError || fetchError;
 
+  // Estado local para erro descartável (permite fechar manualmente)
+  const [dismissibleError, setDismissibleError] = useState<string | null>(null);
+
+  // Sincronizar erro do hook com estado local para poder fechar
+  useEffect(() => {
+    if (error) {
+      console.log('Erro recebido no hook useUsers:', error);
+      setDismissibleError(error);
+    } else {
+      setDismissibleError(null);
+    }
+  }, [error]);
+
+  // Função para descartar erro manualmente
+  const dismissError = useCallback(() => {
+    setDismissibleError(null);
+  }, []);
+
   return {
     users,
     loading,
@@ -99,6 +119,8 @@ export const useUsers = (): UseUsersReturn => {
     updating,
     deleting,
     error,
+    dismissibleError,
+    dismissError,
     createUserHandler,
     updateUserHandler,
     deleteUserHandler,

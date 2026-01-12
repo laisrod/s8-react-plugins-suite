@@ -9,7 +9,6 @@ import {
 
 const router: Router = express.Router();
 
-// Rotas CRUD
 router.get('/', getAllCalendarEvents);
 router.get('/:id', getCalendarEventById);
 router.post('/', createCalendarEvent);
@@ -18,4 +17,3 @@ router.delete('/:id', deleteCalendarEvent);
 
 export { router };
 export default router;
-

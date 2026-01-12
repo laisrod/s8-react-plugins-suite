@@ -9,7 +9,6 @@ export const getAllMapLocations = async (
 ): Promise<void> => {
   try {
     const locations = await MapLocation.find().sort({ createdAt: -1 });
-    
     res.status(200).json({
       success: true,
       data: locations,
@@ -87,7 +86,6 @@ export const updateMapLocation = async (
   try {
     const id = req.params.id;
     const updateData: UpdateMapLocationDTO = req.body;
-    
     const location = await MapLocation.findByIdAndUpdate(
       id,
       updateData,
@@ -146,4 +144,3 @@ export const deleteMapLocation = async (
     });
   }
 };
-

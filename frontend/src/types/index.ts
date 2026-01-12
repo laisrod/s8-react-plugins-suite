@@ -1,7 +1,6 @@
 import type { ChartData, ChartOptions } from 'chart.js';
 import type { FormEvent } from 'react';
 
-// Interface do usuário (mesma do backend)
 export interface IUser {
     _id?: string;
     first: string;
@@ -14,13 +13,13 @@ export interface IUser {
     updatedAt?: string;
   }
   
-  // Tipo para criar usuário
+  // criar usuário
   export type CreateUserDTO = Omit<IUser, '_id' | 'createdAt' | 'updatedAt'>;
   
-  // Tipo para atualizar
+  //  atualizar
   export type UpdateUserDTO = Partial<Omit<IUser, '_id' | 'createdAt' | 'updatedAt'>>;
   
-  // Resposta da API
+  // resposta da API
   export interface ApiResponse<T> {
     success: boolean;
     data?: T;
@@ -28,7 +27,6 @@ export interface IUser {
     message?: string;
   }
 
-  // Interface para MapLocation
   export interface IMapLocation {
     _id?: string;
     name: string;
@@ -41,13 +39,13 @@ export interface IUser {
     updatedAt?: string;
   }
 
-  // Tipo para criar MapLocation
+  // criar MapLocation
   export type CreateMapLocationDTO = Omit<IMapLocation, '_id' | 'createdAt' | 'updatedAt'>;
 
-  // Tipo para atualizar MapLocation
+  // atualizar MapLocation
   export type UpdateMapLocationDTO = Partial<Omit<IMapLocation, '_id' | 'createdAt' | 'updatedAt'>>;
 
-  // Interface para CalendarEvent
+  // calendarEvent
   export interface ICalendarEvent {
     _id?: string;
     title: string;
@@ -58,45 +56,32 @@ export interface IUser {
     updatedAt?: string;
   }
 
-  // Tipo para criar CalendarEvent
+  // criar CalendarEvent
   export type CreateCalendarEventDTO = Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>;
 
-  // Tipo para atualizar CalendarEvent
+  // atualizar CalendarEvent
   export type UpdateCalendarEventDTO = Partial<Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>>;
 
-  // Tipos para Charts (Chart.js)
-  /**
-   * Tipo para dados de gráfico de linha
-   */
+  // Tipos para Charts
+  // dados de gráfico de linha
   export interface LineChartData extends ChartData<'line'> {}
 
-  /**
-   * Tipo para dados de gráfico de barras
-   */
+  // dados de gráfico de barras
   export interface BarChartData extends ChartData<'bar'> {}
 
-  /**
-   * Tipo para dados de gráfico de pizza
-   */
+  // dados de gráfico de pizza
   export interface PieChartData extends ChartData<'pie'> {}
 
-  /**
-   * Tipo para dados de gráfico de rosca
-   */
+  // dados de gráfico de rosca
   export interface DoughnutChartData extends ChartData<'doughnut'> {}
 
-  /**
-   * Tipo para opções de gráfico
-   */
+  // opções de gráfico
   export type ChartOptionsType = ChartOptions<'line' | 'bar' | 'pie' | 'doughnut'>;
 
-  // Tipo para categorias do mapa
+  // categorias do mapa
   export type Category = 'restaurant' | 'park' | 'museum' | 'hotel' | 'shopping' | 'other';
 
-  // Interfaces de Props dos Componentes
-  /**
-   * Props do componente UserForm
-   */
+  // props do componente UserForm
   export interface UserFormProps {
     formData: CreateUserDTO;
     editingUser: IUser | null;
@@ -105,9 +90,7 @@ export interface IUser {
     onCancel: () => void;
   }
 
-  /**
-   * Props do componente ConfirmModal
-   */
+  // props do componente ConfirmModal
   export interface ConfirmModalProps {
     isOpen: boolean;
     title: string;
@@ -118,9 +101,7 @@ export interface IUser {
     onCancel: () => void;
   }
 
-  /**
-   * Props do componente EventModal
-   */
+  // props do componente EventModal
   export interface EventModalProps {
     isOpen: boolean;
     event: ICalendarEvent | null;
@@ -129,9 +110,7 @@ export interface IUser {
     onDelete: (id: string) => Promise<void>;
   }
 
-  /**
-   * Props do componente MapFilters
-   */
+  // props do componente MapFilters
   export interface MapFiltersProps {
     selectedCategories: Category[];
     onCategoryToggle: (category: Category) => void;

@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-import { ICalendarEvent } from '../types/index.js';
+import type { ICalendarEvent } from '../types/index.js';
 
 // Interface que combina ICalendarEvent com Document do Mongoose
 interface ICalendarEventDocument extends ICalendarEvent, Document {
@@ -19,9 +19,8 @@ const calendarEventSchema = new Schema<ICalendarEventDocument>(
   }
 );
 
-// Model tipado
-const CalendarEvent: Model<ICalendarEventDocument> = mongoose.model<ICalendarEventDocument>('CalendarEvent', calendarEventSchema);
+// Model tipado - verifica se já existe para evitar erro em hot reload
+const CalendarEvent: Model<ICalendarEventDocument> = mongoose.models.CalendarEvent as Model<ICalendarEventDocument> || mongoose.model<ICalendarEventDocument>('CalendarEvent', calendarEventSchema);
 
 export { CalendarEvent };
 export default CalendarEvent;
-

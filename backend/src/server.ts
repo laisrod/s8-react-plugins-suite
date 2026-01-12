@@ -5,6 +5,7 @@ import { connectDB } from './config/database.js';
 import { router as userRoutes } from './routes/userRoutes.js';
 import { router as mapLocationRoutes } from './routes/mapLocationRoutes.js';
 import { router as calendarEventRoutes } from './routes/calendarEventRoutes.js';
+import { router as chartDataRoutes } from './routes/chartDataRoutes.js';
 
 // Carregar variáveis de ambiente
 dotenv.config();
@@ -20,10 +21,19 @@ app.use(express.json()); // Permite receber JSON no body
 app.use('/api/users', userRoutes);
 app.use('/api/map-locations', mapLocationRoutes);
 app.use('/api/calendar-events', calendarEventRoutes);
+app.use('/api/chart-data', chartDataRoutes);
 
 // Rota de teste
 app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'API funcionando!' });
+  res.json({ 
+    message: 'API funcionando!',
+    endpoints: {
+      users: '/api/users',
+      mapLocations: '/api/map-locations',
+      calendarEvents: '/api/calendar-events',
+      chartData: '/api/chart-data'
+    }
+  });
 });
 
 // Conectar ao banco e iniciar servidor

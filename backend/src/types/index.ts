@@ -1,4 +1,3 @@
-// Interface para o modelo User
 export interface IUser {
   _id?: string;
   first: string;
@@ -11,11 +10,23 @@ export interface IUser {
   updatedAt?: Date;
 }
 
-// Tipo para criar um usuário (sem _id, createdAt, updatedAt)
-export type CreateUserDTO = Omit<IUser, '_id' | 'createdAt' | 'updatedAt'>;
+export interface NewUser {
+  first: string;
+  last: string;
+  email: string;
+  phone?: string;
+  location?: string;
+  hobby?: string;
+}
 
-// Tipo para atualizar (todos os campos opcionais exceto _id)
-export type UpdateUserDTO = Partial<Omit<IUser, '_id' | 'createdAt' | 'updatedAt'>>;
+export interface UserUpdate {
+  first?: string;
+  last?: string;
+  email?: string;
+  phone?: string;
+  location?: string;
+  hobby?: string;
+}
 
 // Interface para MapLocation
 export interface IMapLocation {
@@ -52,6 +63,24 @@ export type CreateCalendarEventDTO = Omit<ICalendarEvent, '_id' | 'createdAt' | 
 
 // Tipo para atualizar CalendarEvent
 export type UpdateCalendarEventDTO = Partial<Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>>;
+
+// Interface para ChartData
+export interface IChartData {
+  _id?: string;
+  label: string;
+  value: number;
+  category: string;
+  chartType: 'bar' | 'line';
+  date?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+// Tipo para criar ChartData
+export type NewChartData = Omit<IChartData, '_id' | 'createdAt' | 'updatedAt'>;
+
+// Tipo para atualizar ChartData
+export type ChartDataUpdate = Partial<Omit<IChartData, '_id' | 'createdAt' | 'updatedAt'>>;
 
 // Tipo para resposta da API
 export interface ApiResponse<T> {

@@ -21,8 +21,8 @@ const userSchema = new Schema<IUserDocument>(
   }
 );
 
-// Model tipado
-const User: Model<IUserDocument> = mongoose.model<IUserDocument>('User', userSchema);
+// Model tipado - verifica se já existe para evitar erro em hot reload
+const User: Model<IUserDocument> = mongoose.models.User as Model<IUserDocument> || mongoose.model<IUserDocument>('User', userSchema);
 
 export { User };
 export default User;

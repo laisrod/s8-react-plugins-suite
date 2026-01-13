@@ -28,13 +28,7 @@ export interface UserUpdate {
   hobby?: string;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-}
-
+// Interface para MapLocation
 export interface IMapLocation {
   _id?: string;
   name: string;
@@ -47,54 +41,30 @@ export interface IMapLocation {
   updatedAt?: Date;
 }
 
-export interface NewMapLocation {
-  name: string;
-  latitude: number;
-  longitude: number;
-  description?: string;
-  address?: string;
-  category: string;
-}
+// Tipo para criar MapLocation
+export type CreateMapLocationDTO = Omit<IMapLocation, '_id' | 'createdAt' | 'updatedAt'>;
 
-export interface MapLocationUpdate {
-  name?: string;
-  latitude?: number;
-  longitude?: number;
-  description?: string;
-  address?: string;
-  category?: string;
-}
+// Tipo para atualizar MapLocation
+export type UpdateMapLocationDTO = Partial<Omit<IMapLocation, '_id' | 'createdAt' | 'updatedAt'>>;
 
+// Interface para CalendarEvent
 export interface ICalendarEvent {
   _id?: string;
   title: string;
-  start: Date;
-  end?: Date;
+  date: Date;
+  color: string;
   description?: string;
-  color?: string;
-  allDay?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface NewCalendarEvent {
-  title: string;
-  start: Date;
-  end?: Date;
-  description?: string;
-  color?: string;
-  allDay?: boolean;
-}
+// Tipo para criar CalendarEvent
+export type CreateCalendarEventDTO = Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>;
 
-export interface CalendarEventUpdate {
-  title?: string;
-  start?: Date;
-  end?: Date;
-  description?: string;
-  color?: string;
-  allDay?: boolean;
-}
+// Tipo para atualizar CalendarEvent
+export type UpdateCalendarEventDTO = Partial<Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>>;
 
+// Interface para ChartData
 export interface IChartData {
   _id?: string;
   label: string;
@@ -106,19 +76,16 @@ export interface IChartData {
   updatedAt?: Date;
 }
 
-export interface NewChartData {
-  label: string;
-  value: number;
-  category: string;
-  chartType: 'bar' | 'line';
-  date?: Date;
-}
+// Tipo para criar ChartData
+export type NewChartData = Omit<IChartData, '_id' | 'createdAt' | 'updatedAt'>;
 
-export interface ChartDataUpdate {
-  label?: string;
-  value?: number;
-  category?: string;
-  chartType?: 'bar' | 'line';
-  date?: Date;
-}
+// Tipo para atualizar ChartData
+export type ChartDataUpdate = Partial<Omit<IChartData, '_id' | 'createdAt' | 'updatedAt'>>;
 
+// Tipo para resposta da API
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  message?: string;
+}

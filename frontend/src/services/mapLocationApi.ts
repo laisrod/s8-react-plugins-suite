@@ -2,22 +2,23 @@ import type { IMapLocation, ApiResponse } from '../types/index';
 
 const API_URL = 'http://localhost:3000/api/map-locations';
 
-export const fetchMapLocations = async (): Promise<ApiResponse<IMapLocation[]>> => {
+const fetchAPI = async <T>(
+  endpoint: string,
+  options?: RequestInit
+): Promise<ApiResponse<T>> => {
   try {
-    const response = await fetch(API_URL, {
-      method: 'GET',
+    const response = await fetch(`${API_URL}${endpoint}`, {
       headers: {
         'Content-Type': 'application/json',
+        ...options?.headers,
       },
+      ...options,
     });
 
-    const data: ApiResponse<IMapLocation[]> = await response.json();
+    const data: ApiResponse<T> = await response.json();
     
     if (!response.ok) {
-      return {
-        success: false,
-        error: data.error || 'Erro ao buscar locais',
-      };
+      throw new Error(data.error || 'Erro na requisição');
     }
 
     return data;
@@ -29,3 +30,6 @@ export const fetchMapLocations = async (): Promise<ApiResponse<IMapLocation[]>> 
   }
 };
 
+export const fetchMapLocations = async (): Promise<ApiResponse<IMapLocation[]>> => {
+  return fetchAPI<IMapLocation[]>('');
+};

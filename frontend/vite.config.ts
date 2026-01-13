@@ -10,4 +10,7 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+    include: ['leaflet', 'react-leaflet', 'chart.js', 'react-chartjs-2', 'react-calendar'],
+  },
 })

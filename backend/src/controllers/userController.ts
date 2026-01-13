@@ -57,7 +57,32 @@ export const createUser = async (req: Request, res: Response) => {
       message: 'Usuário criado com sucesso'
     } as ApiResponse<IUser>);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+    let errorMessage = 'Erro ao criar usuário';
+    
+    if (error instanceof Error) {
+      // Tratamento de erros específicos do Mongoose
+      if (error.name === 'ValidationError') {
+        const validationError = error as any;
+        const fieldErrors = Object.keys(validationError.errors || {}).map(
+          (key) => `${key}: ${validationError.errors[key].message}`
+        );
+        errorMessage = fieldErrors.length > 0 
+          ? `Erro de validação: ${fieldErrors.join(', ')}`
+          : `Erro de validação: ${error.message}`;
+      } else if (error.name === 'MongoServerError' && (error as any).code === 11000) {
+        errorMessage = 'Email já está em uso. Por favor, use outro email.';
+      } else {
+        errorMessage = error.message;
+      }
+    }
+
+    console.error('Erro ao criar usuário:', {
+      error,
+      errorName: error instanceof Error ? error.name : 'Unknown',
+      errorMessage: error instanceof Error ? error.message : 'Unknown',
+      userData: req.body
+    });
+    
     res.status(400).json({
       success: false,
       error: errorMessage
@@ -84,7 +109,7 @@ export const updateUser = async (req: Request, res: Response) => {
       return;
     }
     
-    // Retornar o usuário atualizado com stat user 200 OK
+    // Retornar o usuário atualizado com status 200 OK
     res.status(200).json({
       success: true,
       data: updatedUser,

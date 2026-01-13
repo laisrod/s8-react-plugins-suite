@@ -45,7 +45,7 @@ const startServer = async (): Promise<void> => {
       console.log(`API disponível em http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error(' Erro ao iniciar servidor:', error);
+    console.error('Erro ao iniciar servidor:', error);
     process.exit(1);
   }
 };

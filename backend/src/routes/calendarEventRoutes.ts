@@ -17,4 +17,3 @@ router.delete('/:id', deleteCalendarEvent);
 
 export { router };
 export default router;
-

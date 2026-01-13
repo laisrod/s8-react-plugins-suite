@@ -35,7 +35,7 @@ const mapLocationSchema = new Schema<IMapLocationDocument>(
     category: {
       type: String,
       required: true,
-      enum: ['restaurant', 'bar', 'cafe', 'hotel', 'other'],
+      enum: ['restaurant', 'park', 'museum', 'hotel', 'shopping', 'other'],
       default: 'other'
     }
   },
@@ -44,11 +44,11 @@ const mapLocationSchema = new Schema<IMapLocationDocument>(
   }
 );
 
-const MapLocation: Model<IMapLocationDocument> = mongoose.model<IMapLocationDocument>(
+// Model tipado - verifica se já existe para evitar erro em hot reload
+const MapLocation: Model<IMapLocationDocument> = mongoose.models.MapLocation as Model<IMapLocationDocument> || mongoose.model<IMapLocationDocument>(
   'MapLocation', 
   mapLocationSchema
 );
 
 export { MapLocation };
 export default MapLocation;
-

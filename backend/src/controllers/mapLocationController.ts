@@ -1,26 +1,33 @@
 import { Request, Response } from 'express';
 import { MapLocation } from '../models/MapLocation.js';
-import type { IMapLocation, NewMapLocation, MapLocationUpdate, ApiResponse } from '../types/index.js';
+import type { IMapLocation, CreateMapLocationDTO, UpdateMapLocationDTO, ApiResponse } from '../types/index.js';
 
-export const getAllMapLocations = async (req: Request, res: Response) => {
+// GET /api/map-locations - Buscar todos os locais
+export const getAllMapLocations = async (
+  req: Request,
+  res: Response<ApiResponse<IMapLocation[]>>
+): Promise<void> => {
   try {
-   const locations = await MapLocation.find().sort({ createdAt: -1 });
-    
+    const locations = await MapLocation.find().sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
       data: locations,
       message: 'Locais encontrados com sucesso'
-    } as ApiResponse<IMapLocation[]>);
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
     res.status(500).json({
       success: false,
       error: errorMessage
-    } as ApiResponse<IMapLocation[]>);
+    });
   }
 };
 
-export const getMapLocationById = async (req: Request, res: Response) => {
+// GET /api/map-locations/:id - Buscar um local por ID
+export const getMapLocationById = async (
+  req: Request<{ id: string }>,
+  res: Response<ApiResponse<IMapLocation>>
+): Promise<void> => {
   try {
     const id = req.params.id;
     const location = await MapLocation.findById(id);
@@ -29,53 +36,56 @@ export const getMapLocationById = async (req: Request, res: Response) => {
       res.status(404).json({
         success: false,
         error: 'Local não encontrado'
-      } as ApiResponse<IMapLocation>);
-      return; // Parar a execução aqui
+      });
+      return;
     }
     
     res.status(200).json({
       success: true,
       data: location,
       message: 'Local encontrado com sucesso'
-    } as ApiResponse<IMapLocation>);
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
     res.status(500).json({
       success: false,
       error: errorMessage
-    } as ApiResponse<IMapLocation>);
+    });
   }
 };
 
-// POST Criar um novo local no mapa
-export const createMapLocation = async (req: Request, res: Response) => {
+// POST /api/map-locations - Criar um novo local
+export const createMapLocation = async (
+  req: Request<{}, ApiResponse<IMapLocation>, CreateMapLocationDTO>,
+  res: Response<ApiResponse<IMapLocation>>
+): Promise<void> => {
   try {
-    // 1. Pegar dados da requisição
-    const locationData: NewMapLocation = req.body;
-    // 2. Criar novo local no banco de dados
-    // 2.1. Criar novo local com os dados recebidos
+    const locationData: CreateMapLocationDTO = req.body;
     const newLocation = new MapLocation(locationData);
-    // 2.2. Salvar no banco de dados (await espera a operação terminar)
     const savedLocation = await newLocation.save();
-    // 3. Retornar o local criado com status 201 (Criado com sucesso)
+    
     res.status(201).json({
       success: true,
       data: savedLocation,
       message: 'Local criado com sucesso'
-    } as ApiResponse<IMapLocation>);
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
     res.status(400).json({
       success: false,
       error: errorMessage
-    } as ApiResponse<IMapLocation>);
+    });
   }
 };
 
-export const updateMapLocation = async (req: Request, res: Response) => {
+// PUT /api/map-locations/:id - Atualizar um local
+export const updateMapLocation = async (
+  req: Request<{ id: string }, ApiResponse<IMapLocation>, UpdateMapLocationDTO>,
+  res: Response<ApiResponse<IMapLocation>>
+): Promise<void> => {
   try {
     const id = req.params.id;
-    const updateData: MapLocationUpdate = req.body;
+    const updateData: UpdateMapLocationDTO = req.body;
     const location = await MapLocation.findByIdAndUpdate(
       id,
       updateData,
@@ -86,26 +96,29 @@ export const updateMapLocation = async (req: Request, res: Response) => {
       res.status(404).json({
         success: false,
         error: 'Local não encontrado'
-      } as ApiResponse<IMapLocation>);
+      });
       return;
     }
     
-    // Retornar o local atualizado com status 200 (OK)
     res.status(200).json({
       success: true,
       data: location,
       message: 'Local atualizado com sucesso'
-    } as ApiResponse<IMapLocation>);
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
     res.status(400).json({
       success: false,
       error: errorMessage
-    } as ApiResponse<IMapLocation>);
+    });
   }
 };
 
-export const deleteMapLocation = async (req: Request, res: Response) => {
+// DELETE /api/map-locations/:id - Deletar um local
+export const deleteMapLocation = async (
+  req: Request<{ id: string }>,
+  res: Response<ApiResponse<null>>
+): Promise<void> => {
   try {
     const id = req.params.id;
     const location = await MapLocation.findByIdAndDelete(id);
@@ -114,7 +127,7 @@ export const deleteMapLocation = async (req: Request, res: Response) => {
       res.status(404).json({
         success: false,
         error: 'Local não encontrado'
-      } as ApiResponse<null>);
+      });
       return;
     }
     
@@ -122,12 +135,12 @@ export const deleteMapLocation = async (req: Request, res: Response) => {
       success: true,
       data: null,
       message: 'Local deletado com sucesso'
-    } as ApiResponse<null>);
+    });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
     res.status(500).json({
       success: false,
       error: errorMessage
-    } as ApiResponse<null>);
+    });
   }
 };

@@ -65,7 +65,7 @@ export const useCharts = (): UseChartsReturn => {
 
     // Agrupar por categoria
     const categories = [...new Set(lineItems.map(d => d.category))];
-    const datasets = categories.map((category, index) => {
+    const datasets = categories.map((category) => {
       const categoryData = lineItems.filter(d => d.category === category);
       return {
         label: category,

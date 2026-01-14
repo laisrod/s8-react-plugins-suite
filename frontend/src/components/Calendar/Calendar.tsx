@@ -2,23 +2,42 @@ import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../../css/Calendar.css';
+import { useCalendar, useCalendarEvents } from '../../hooks';
 
 const CalendarComponent = () => {
-  const [date, setDate] = useState<Date | null>(new Date());
+  const { date, handleDateChange, formattedDate } = useCalendar();
+  const { events, loading, error } = useCalendarEvents();
 
-  const handleDateChange = (value: Date | [Date | null, Date | null] | null) => {
-    if (value instanceof Date) {
-      setDate(value);
-    } else if (Array.isArray(value) && value[0] instanceof Date) {
-      setDate(value[0]);
-    } else {
-      setDate(null);
-    }
-  };
+  // Filtrar eventos da data selecionada
+  const selectedDateEvents = date
+    ? events.filter(event => {
+        const eventDate = new Date(event.date);
+        const selectedDate = new Date(date);
+        return (
+          eventDate.getDate() === selectedDate.getDate() &&
+          eventDate.getMonth() === selectedDate.getMonth() &&
+          eventDate.getFullYear() === selectedDate.getFullYear()
+        );
+      })
+    : [];
+
+  if (loading) {
+    return (
+      <div className="calendar-container">
+        <h1>Calendário</h1>
+        <div className="loading-message">Carregando eventos...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="calendar-container">
-      <h1>Calendário Completo</h1>
+      <h1>Calendário</h1>
+      {error && (
+        <div className="error-message">
+          <p>Erro: {error}</p>
+        </div>
+      )}
       <div className="calendar-wrapper">
         <Calendar
           onChange={handleDateChange}
@@ -26,17 +45,24 @@ const CalendarComponent = () => {
           className="react-calendar"
         />
       </div>
-      {date && (
+      {formattedDate && (
         <div className="selected-date">
           <p>
-            <strong>Data selecionada:</strong>{' '}
-            {date instanceof Date && date.toLocaleDateString('pt-BR', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+            <strong>Data selecionada:</strong> {formattedDate}
           </p>
+          {selectedDateEvents.length > 0 && (
+            <div className="events-list">
+              <h3>Eventos nesta data:</h3>
+              <ul>
+                {selectedDateEvents.map((event) => (
+                  <li key={event._id} style={{ color: event.color || '#4a5568' }}>
+                    <strong>{event.title}</strong>
+                    {event.description && <p>{event.description}</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </div>

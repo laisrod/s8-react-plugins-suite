@@ -13,9 +13,9 @@ const App = () => {
         <div className="nav-container">
           <Link to="/" className="nav-link">Lar</Link>
           <Link to="/mapa" className="nav-link">Mapa</Link>
-          <Link to="/calendario" className="nav-link">Calendário completo</Link>
-          <Link to="/graficos" className="nav-link">Gráficos (Chartjs)</Link>
-          <Link to="/usuarios" className="nav-link">CRUD Usuários</Link>
+          <Link to="/calendario" className="nav-link">Calendário</Link>
+          <Link to="/graficos" className="nav-link">Gráficos</Link>
+          <Link to="/usuarios" className="nav-link">Usuários</Link>
         </div>
       </nav>
       

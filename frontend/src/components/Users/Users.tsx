@@ -1,128 +1,35 @@
-import { useState, useEffect } from 'react';
-import type { FormEvent } from 'react';
-import type { IUser, CreateUserDTO } from '../../types/index';
-import { fetchUsers, createUser, updateUser, deleteUser } from '../../services/api';
-import './Users.css';
+import { useUsers } from '../../hooks';
+import '../../css/Users.css';
 
 const Users = () => {
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [editingUser, setEditingUser] = useState<IUser | null>(null);
-  const [showForm, setShowForm] = useState<boolean>(false);
-
-  // Formulário
-  const [formData, setFormData] = useState<CreateUserDTO>({
-    first: '',
-    last: '',
-    email: '',
-    phone: '',
-    location: '',
-    hobby: ''
-  });
-
-  // Função para carregar todos os usuários
-  const loadUsers = async (): Promise<void> => {
-    setLoading(true);
-    setError(null);
-    const response = await fetchUsers();
-    
-    if (response.success && response.data) {
-      setUsers(response.data);
-    } else {
-      setError(response.error || 'Erro ao carregar usuários');
-    }
-    setLoading(false);
-  };
-
-  // Carregar usuários ao montar o componente
-  useEffect(() => {
-    // Carregar dados iniciais ao montar o componente
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void loadUsers();
-  }, []);
-
-  // Função para criar usuário
-  const handleCreate = async (e: FormEvent): Promise<void> => {
-    e.preventDefault();
-    const response = await createUser(formData);
-    if (response.success) {
-      await loadUsers();
-      resetForm();
-      setShowForm(false);
-    } else {
-      setError(response.error || 'Erro ao criar usuário');
-    }
-  };
-
-  // Função para atualizar usuário
-  const handleUpdate = async (e: FormEvent): Promise<void> => {
-    e.preventDefault();
-    if (!editingUser?._id) return;
-    
-    const response = await updateUser(editingUser._id, formData);
-    if (response.success) {
-      await loadUsers();
-      resetForm();
-      setEditingUser(null);
-      setShowForm(false);
-    } else {
-      setError(response.error || 'Erro ao atualizar usuário');
-    }
-  };
-
-  // Função para deletar usuário
-  const handleDelete = async (id: string): Promise<void> => {
-    if (!confirm('Tem certeza que deseja deletar este usuário?')) return;
-    
-    const response = await deleteUser(id);
-    if (response.success) {
-      await loadUsers();
-    } else {
-      setError(response.error || 'Erro ao deletar usuário');
-    }
-  };
-
-  // Função para iniciar edição
-  const startEdit = (user: IUser): void => {
-    setEditingUser(user);
-    setFormData({
-      first: user.first,
-      last: user.last,
-      email: user.email,
-      phone: user.phone || '',
-      location: user.location || '',
-      hobby: user.hobby || ''
-    });
-    setShowForm(true);
-  };
-
-  // Função para resetar formulário
-  const resetForm = (): void => {
-    setFormData({
-      first: '',
-      last: '',
-      email: '',
-      phone: '',
-      location: '',
-      hobby: ''
-    });
-    setEditingUser(null);
-  };
-
-  // Função para cancelar edição/criação
-  const handleCancel = (): void => {
-    resetForm();
-    setShowForm(false);
-  };
+  const {
+    users,
+    loading,
+    error,
+    editingUser,
+    showForm,
+    formData,
+    setFormData,
+    handleCreate,
+    handleUpdate,
+    handleDelete,
+    startEdit,
+    resetForm,
+    handleCancel,
+    setShowForm,
+  } = useUsers();
 
   if (loading) {
-    return <div className="users-container">Carregando...</div>;
+    return (
+      <div className="users-container">
+        <div className="loading-message">Carregando usuários...</div>
+      </div>
+    );
   }
 
   return (
     <div className="users-container">
-      <h1>CRUD de Usuários</h1>
+      <h1>Usuários</h1>
       
       {error && <div className="error-message">{error}</div>}
 
@@ -222,7 +129,7 @@ const Users = () => {
           <tbody>
             {users.length === 0 ? (
               <tr>
-                <td colSpan={8} style={{ textAlign: 'center' }}>
+                <td colSpan={8} className="empty-message">
                   Nenhum usuário encontrado
                 </td>
               </tr>

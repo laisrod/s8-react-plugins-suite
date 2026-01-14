@@ -22,13 +22,6 @@ const MapFilters = ({
           className="map-filters-label"
           htmlFor={`filter-${item.category}`}
         >
-          {/* ============================================================
-              FLUXO DE FILTRAGEM: Usuário clica → Estado muda
-              ============================================================
-              Quando o usuário clica neste checkbox, onChange é disparado
-              e chama handleCategoryChange, que por sua vez chama onCategoryToggle
-              Isso atualiza o estado selectedCategories em useMap.ts
-          */}
           <input
             id={`filter-${item.category}`}
             type="checkbox"

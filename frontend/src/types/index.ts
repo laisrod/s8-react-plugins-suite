@@ -63,6 +63,24 @@ export interface IUser {
   export type UpdateCalendarEventDTO = Partial<Omit<ICalendarEvent, '_id' | 'createdAt' | 'updatedAt'>>;
 
   // Tipos para Charts
+  // Interface para ChartData do backend
+  export interface IChartData {
+    _id?: string;
+    label: string;
+    value: number;
+    category: string;
+    chartType: 'bar' | 'line';
+    date?: string; // Date vira string no JSON
+    createdAt?: string;
+    updatedAt?: string;
+  }
+
+  // Tipo para criar ChartData
+  export type CreateChartDataDTO = Omit<IChartData, '_id' | 'createdAt' | 'updatedAt'>;
+
+  // Tipo para atualizar ChartData
+  export type UpdateChartDataDTO = Partial<Omit<IChartData, '_id' | 'createdAt' | 'updatedAt'>>;
+
   // dados de gráfico de linha
   export interface LineChartData extends ChartData<'line'> {}
 

@@ -7,7 +7,28 @@ registerChartJS();
 
 
 const Charts = () => {
-  const { lineData, barData, pieData, doughnutData } = useCharts();
+  const { lineData, barData, pieData, doughnutData, loading, error, refetch } = useCharts();
+
+  if (loading) {
+    return (
+      <div className="charts-container">
+        <h1>Gráficos</h1>
+        <div className="loading-message">Carregando dados dos gráficos...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="charts-container">
+        <h1>Gráficos</h1>
+        <div className="error-message">
+          <p>Erro: {error}</p>
+          <button onClick={() => void refetch()}>Tentar novamente</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="charts-container">

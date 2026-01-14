@@ -36,7 +36,6 @@ const chartDataSchema = new Schema<IChartDataDocument>(
   }
 );
 
-// Model tipado - verifica se já existe para evitar erro em hot reload
 const ChartData: Model<IChartDataDocument> = mongoose.models.ChartData as Model<IChartDataDocument> || mongoose.model<IChartDataDocument>(
   'ChartData', 
   chartDataSchema

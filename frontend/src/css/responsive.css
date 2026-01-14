@@ -1,0 +1,17 @@
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-container,
+  .map-container,
+  .calendar-container,
+  .charts-container {
+    padding: 1rem;
+  }
+}

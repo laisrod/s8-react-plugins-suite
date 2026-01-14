@@ -80,3 +80,24 @@
   background: #34495e;
 }
 
+.calendar-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.selected-date {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #ecf0f1;
+  border-radius: 8px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.selected-date p {
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
